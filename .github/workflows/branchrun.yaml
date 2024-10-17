@@ -3,8 +3,7 @@ name: Custom Branch Workflow
 on:
   push:
     branches:
-      - '3[0-9].[0-9].[0-9]{6}-submissions'
-      - 'gman'
+      - '3*.*.*-submissions'
 
 jobs:
   say-hello:
