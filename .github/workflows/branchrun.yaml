@@ -6,9 +6,20 @@ on:
       - '3*.*.*-submissions'
 
 jobs:
-  say-hello:
+  check-branch:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Say Hello
+      - name: Check if branch matches pattern
+        run: |
+          BRANCH_NAME="${{ github.ref#refs/heads/ }}"
+          if [[ "$BRANCH_NAME" =~ ^3[0-9]\.[0-9]\.[0-9]{6}-submissions$ ]]; then
+            echo "Branch name is valid: $BRANCH_NAME"
+          else
+            echo "Branch name does not match required pattern: 3x.x.xxxxxx-submissions"
+            exit 1
+          fi
+
+      - name: Say Hello (if valid)
         run: echo "Hello from branch ${{ github.ref }}"
+        if: success()   # Only run this step if the branch pattern check passes
